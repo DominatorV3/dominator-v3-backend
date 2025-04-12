@@ -1,4 +1,5 @@
 import os
+from src.wallet_utils import get_balance
 import json
 from dotenv import load_dotenv
 from telegram import (
