@@ -1,7 +1,7 @@
 from solana.rpc.api import Client
 from solana.keypair import Keypair
 from solana.publickey import PublicKey
-from solana.transactions import Transaction
+from solders.transaction import VersionedTransaction as Transaction
 from solana.system_program import TransferParams, transfer
 from solders.keypair import Keypair as SoldersKeypair
 from solders.pubkey import Pubkey
