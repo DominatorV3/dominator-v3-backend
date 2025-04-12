@@ -5,3 +5,4 @@ solana==0.21.0
 json5
 matplotlib
 telethon
+solders==0.26.0
