@@ -2,7 +2,7 @@ from solders.keypair import Keypair
 from solders.pubkey import Pubkey
 from solders.signature import Signature
 from solana.rpc.api import Client
-from solana.transaction import Transaction
+from solana.transactions import Transaction
 from solana.system_program import TransferParams, transfer
 
 
