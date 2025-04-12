@@ -17,7 +17,7 @@ from telegram.ext import (
 )
 
 from panic_utils import set_panic_mode, is_panic_mode
-from wallet_utils import get_balance
+from src.wallet_utils import get_balance
 
 load_dotenv()
 
