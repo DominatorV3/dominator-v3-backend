@@ -1,0 +1,68 @@
+{
+    "total_tx": 10,
+    "total_volume": 0.536875,
+    "tokens": [
+        "TOKEN213",
+        "TOKEN213",
+        "TOKEN213",
+        "TOKEN213",
+        "TOKEN803",
+        "TOKEN803",
+        "TOKEN999",
+        "TOKEN999",
+        "TOKEN803",
+        "TOKEN803"
+    ],
+    "history": [
+        {
+            "token": "TOKEN213",
+            "amount": 0.059639,
+            "time": "2025-04-10 11:53:38"
+        },
+        {
+            "token": "TOKEN213",
+            "amount": 0,
+            "time": "2025-04-10 11:53:38"
+        },
+        {
+            "token": "TOKEN213",
+            "amount": 0.059652,
+            "time": "2025-04-10 14:57:58"
+        },
+        {
+            "token": "TOKEN213",
+            "amount": 0.059652,
+            "time": "2025-04-10 14:57:58"
+        },
+        {
+            "token": "TOKEN803",
+            "amount": 0.059652,
+            "time": "2025-04-10 14:58:02"
+        },
+        {
+            "token": "TOKEN803",
+            "amount": 0.059652,
+            "time": "2025-04-10 14:58:02"
+        },
+        {
+            "token": "TOKEN999",
+            "amount": 0.059657,
+            "time": "2025-04-10 15:04:50"
+        },
+        {
+            "token": "TOKEN999",
+            "amount": 0.059657,
+            "time": "2025-04-10 15:04:50"
+        },
+        {
+            "token": "TOKEN803",
+            "amount": 0.059657,
+            "time": "2025-04-10 15:04:52"
+        },
+        {
+            "token": "TOKEN803",
+            "amount": 0.059657,
+            "time": "2025-04-10 15:04:52"
+        }
+    ]
+}

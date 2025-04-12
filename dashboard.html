@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>💀 DOMINATOR V3 - Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #111; color: #fff; padding: 30px; }
+        h1 { color: #00ff88; text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th, td { padding: 12px; border: 1px solid #444; text-align: center; }
+        th { background-color: #222; }
+        tr:nth-child(even) { background-color: #1c1c1c; }
+        .success { color: #00ff00; font-weight: bold; }
+        .error { color: #ff4444; font-weight: bold; }
+        a { color: #00b7ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>📊 DOMINATOR V3 - Live Dashboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>⏰ Date</th>
+                <th>🧠 Token</th>
+                <th>💰 Montant (SOL)</th>
+                <th>🔗 TX Hash</th>
+                <th>📦 Statut</th>
+            </tr>
+        </thead>
+        <tbody id="dashboard-body"></tbody>
+    <tr><td>TOKEN213</td><td>✅ Réelle</td><td>❌ Exception TX : Transaction.sign() missing 1 required positional argument: 'recent_blockhash'</td><td>0.059639</td><td>2025-04-10 11:53:38</td></tr><tr><td>TOKEN213</td><td>❌ Erreur TX</td><td>notify_tx_result() missing 1 required positional argument: 'status'</td><td>0</td><td>2025-04-10 11:53:38</td></tr><tr><td>TOKEN213</td><td>✅ TX Confirmée</td><td>None</td><td>0.059652</td><td>2025-04-10 14:57:58</td></tr><tr><td>TOKEN803</td><td>✅ TX Confirmée</td><td>None</td><td>0.059652</td><td>2025-04-10 14:58:02</td></tr><tr><td>TOKEN999</td><td>✅ TX Confirmée</td><td>4R7keu2AoSEXbP8F92bv1KE8Y8cB57pvS3vUkfnjLcoHYD1GWvYz3M48baWVbMGtBwrEGQQWP7FCs3X4ZTcgu53T</td><td>0.059657</td><td>2025-04-10 15:04:50</td></tr><tr><td>TOKEN803</td><td>✅ TX Confirmée</td><td>2gijP3ZPbTGw4TZDpEQLNiy5FeEcNKSKQ1vUrv2qA2ma1RW4tmYvWMEMzjyPPfJu5Kj9JkKnEWj6Rm1KXfXFKYc</td><td>0.059657</td><td>2025-04-10 15:04:52</td></tr><tr><td>TOKEN999</td><td>TX Confirmée</td><td>5SaM1r91XCXY66VpJhrwubqyeu4vAtPLsDq98CacwxTus5SAPqPb5zY4fDmD58ndXfPrPk18wecv4J9R4pAgbjC1</td><td>0.059656</td><td>2025-04-10 19:19:39</td></tr><tr><td>TOKEN999</td><td>TX Confirmée</td><td>3LP2NiJpJoCAoD2KeMBzRt7TZ43qkeqLEKmqHrnK1GZZryx4tcUk8gKnigbLTshvXsWr8KmmnKeq2skRQ26iyhrX</td><td>0.059656</td><td>2025-04-10 19:19:52</td></tr><tr><td>TOKEN999</td><td>TX Confirmée</td><td>vLYgjQ2vQdnqj2PUpG5ck8Uk269Bxmm7zXDNkbvJiSseH86JudSGQXW3uCRoMpVYxPFD6XMoACGZBYmjaLhRjyQ</td><td>0.059656</td><td>2025-04-10 19:20:03</td></tr></table>
+
+    <script>
+        fetch("dashboard.json")
+            .then(response => response.json())
+            .then(data => {
+                const body = document.getElementById("dashboard-body");
+                data.transactions.slice().reverse().forEach(tx => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${tx.timestamp}</td>
+                        <td>${tx.token}</td>
+                        <td>${tx.amount}</td>
+                        <td><a href="https://solscan.io/tx/${tx.tx_hash}" target="_blank">${tx.tx_hash.substring(0, 8)}...</a></td>
+                        <td class="${tx.status.includes('✅') ? 'success' : 'error'}">${tx.status}</td>
+                    `;
+                    body.appendChild(row);
+                });
+            })
+            .catch(err => {
+                console.error("Erreur chargement JSON :", err);
+            });
+    </script>
+</body>
+</html>
