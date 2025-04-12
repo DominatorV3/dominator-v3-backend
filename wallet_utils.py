@@ -1,56 +1,48 @@
 from solders.keypair import Keypair
 from solders.pubkey import Pubkey
-from solders.transaction import VersionedTransaction
-from solders.message import MessageV0, LoadedAddresses
+from solders.signature import Signature
 from solana.rpc.api import Client
-from solana.rpc.types import TxOpts
-from base64 import b64decode
-from solana.rpc.commitment import Confirmed
-import json
-import os
+from solana.transaction import Transaction
+from solana.system_program import TransferParams, transfer
 
-# 🔐 Init Solana client
-RPC_URL = "https://api.mainnet-beta.solana.com"
-client = Client(RPC_URL)
 
-def get_balance(wallet_address):
+def get_balance(client: Client, address: str) -> float:
+    """Retourne le solde SOL d'une adresse Solana."""
     try:
-        balance = client.get_balance(wallet_address)["result"]["value"] / 1e9
-        return round(balance, 6)
+        pubkey = Pubkey.from_string(address)
+        response = client.get_balance(pubkey)
+        lamports = response.value
+        return lamports / 1_000_000_000  # Convertit en SOL
     except Exception as e:
-        print(f"[Erreur Solana Balance] : {e}")
-        return None
+        print(f"[❌] Erreur get_balance: {e}")
+        return 0.0
 
-def send_sol(private_key_str, recipient_address, amount_sol):
+
+def send_sol(client: Client, sender: Keypair, recipient: str, amount_sol: float) -> str:
+    """Envoie du SOL à une adresse spécifiée."""
     try:
-        # Génération de la clé depuis la string privée (64 bytes JSON base58)
-        private_key_list = json.loads(private_key_str)
-        sender = Keypair.from_bytes(bytes(private_key_list))
-
-        recipient = Pubkey.from_string(recipient_address)
-        lamports = int(amount_sol * 1e9)
-
-        latest_blockhash = client.get_latest_blockhash()["result"]["value"]["blockhash"]
-        message = MessageV0.try_compile(
-            payer=sender.pubkey(),
-            instructions=[
-                {
-                    "program_id": Pubkey.from_string("11111111111111111111111111111111"),  # System program
-                    "accounts": [
-                        {"pubkey": sender.pubkey(), "is_signer": True, "is_writable": True},
-                        {"pubkey": recipient, "is_signer": False, "is_writable": True}
-                    ],
-                    "data": b'\x02' + lamports.to_bytes(8, 'little')
-                }
-            ],
-            recent_blockhash=latest_blockhash,
-            address_lookup_table_accounts=[]
+        recipient_pubkey = Pubkey.from_string(recipient)
+        lamports = int(amount_sol * 1_000_000_000)  # Convertit SOL → lamports
+        txn = Transaction().add(
+            transfer(
+                TransferParams(
+                    from_pubkey=sender.pubkey(),
+                    to_pubkey=recipient_pubkey,
+                    lamports=lamports
+                )
+            )
         )
-
-        tx = VersionedTransaction(message, [sender])
-        result = client.send_transaction(tx, opts=TxOpts(skip_confirmation=False, preflight_commitment=Confirmed))
-        print(f"✅ Transaction envoyée ! Signature : {result['result']}")
-        return result['result']
+        result = client.send_transaction(txn, sender)
+        return str(result.value)
     except Exception as e:
-        print(f"[Erreur envoi SOL] : {e}")
-        return None
+        return f"Erreur lors de l'envoi de SOL : {e}"
+
+
+def load_keypair_from_private_key(private_key: str) -> Keypair:
+    """Charge un Keypair depuis une clé privée en base58 (format Solana CLI)."""
+    try:
+        secret = list(map(int, private_key.strip("[]").split(",")))
+        return Keypair.from_bytes(bytes(secret))
+    except Exception as e:
+        print(f"[❌] Erreur load_keypair_from_private_key: {e}")
+        raise
