@@ -1,0 +1,22 @@
+[
+  {
+    "token": "TOKEN777",
+    "score_ia": 0.72,
+    "lp": true,
+    "honeypot": false,
+    "slippage": 5,
+    "score_final": 0.81,
+    "status": "accepted",
+    "timestamp": 1712952300
+  },
+  {
+    "token": "TOKEN333",
+    "score_ia": 0.51,
+    "lp": false,
+    "honeypot": false,
+    "slippage": 15,
+    "score_final": 0.41,
+    "status": "blocked",
+    "timestamp": 1712952360
+  }
+]

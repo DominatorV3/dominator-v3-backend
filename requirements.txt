@@ -1,0 +1,7 @@
+python-dotenv
+requests
+python-telegram-bot==13.15
+solana
+json5
+matplotlib
+telethon
